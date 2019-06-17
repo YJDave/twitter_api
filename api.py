@@ -17,11 +17,7 @@ class QueryAPI(Resource):
     def get(self, keyword):
         store_tweets_to_db()
         tweets = get_tweets(keyword)
-        return jsonify({
-            "result": "List of all tweets with metadata",
-            "tweets": tweets
-        })
-
+        return jsonify(tweets)
 
 api.add_resource(Hello, '/')
 api.add_resource(QueryAPI, '/query/<string:keyword>')
