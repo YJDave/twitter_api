@@ -62,7 +62,7 @@ def get_users_by_keyword(keyword):
         else:
             users[tweet.author_id] = {
                 "User ID": tweet.author_id,
-                "count": 0,
+                "count": 1,
             }
     print_msg("Done!")
     return users
