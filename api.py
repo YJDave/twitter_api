@@ -26,8 +26,24 @@ class QueryAPI(Resource):
             db_scripts.store_tweets_to_db(keyword, tweets)
         return jsonify(tweets)
 
+class QueryDBAPITweet(Resource):
+    def get(self, option):
+        if option not in ['retweet', 'like']:
+            return jsonify({"ERROR": "Invalid option"})
+
+        tweets = db_scripts.get_top_tweets(option)
+        return jsonify(tweets)
+
+class QueryDBAPIKeyword(Resource):
+    def get(self):
+
+        all_tweets = db_scripts.get_all_tweets_keywords()
+        return jsonify(all_tweets)
+
 api.add_resource(Hello, '/')
 api.add_resource(QueryAPI, '/query/<string:keyword>')
+api.add_resource(QueryDBAPITweet, '/query/db/top/<string:option>')
+api.add_resource(QueryDBAPIKeyword, '/query/db/all')
 
 
 if __name__ == '__main__':

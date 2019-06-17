@@ -13,6 +13,22 @@ def get_keyword_tweets(keyword):
     print_msg("Done!")
     return tweets
 
+def get_top_tweets(option):
+    print_msg("Getting top tweets")
+    if option == 'retweet':
+        query = 'retweet_count'
+    elif option == 'like':
+        query = 'favorite_count'
+
+    tweets = []
+    for tweet in models.TweetModel.query.order_by(query):
+        tweets.insert(0, tweet.to_dict())
+    print_msg("Done!")
+    return tweets
+
+def get_all_tweets_keywords():
+    return []
+
 def store_tweets_to_db(keyword, tweets):
     # TODO: store tweets to db
     print_msg("Storing tweets to database")
