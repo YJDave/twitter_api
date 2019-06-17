@@ -8,19 +8,19 @@ app = Flask(__name__)
 api = Api(app)
 
 class Hello(Resource):
-	# TODO: Add documentation here on how to access API
+    # TODO: Add documentation here on how to access API
     def get(self):
         return jsonify({'hello': 'You can query this API in following format'})
 
 class QueryAPI(Resource):
-	# TODO: Return tweets here match with keyword
-	def get(self, keyword):
-		store_tweets_to_db()
-		tweets = get_tweets(keyword)
-		return jsonify({
-			"result": "List of all tweets with metadata",
-			"tweets": tweets
-		})
+    # TODO: Return tweets here match with keyword
+    def get(self, keyword):
+        store_tweets_to_db()
+        tweets = get_tweets(keyword)
+        return jsonify({
+            "result": "List of all tweets with metadata",
+            "tweets": tweets
+        })
 
 
 api.add_resource(Hello, '/')
