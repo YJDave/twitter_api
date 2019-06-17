@@ -2,6 +2,8 @@
 import datetime
 from api import db
 import ujson
+from sqlalchemy import func
+from sqlalchemy.sql import label
 
 search_results = db.Table('results',
     db.Column('keyword', db.String(120), db.ForeignKey('keyword.name')),
@@ -47,6 +49,11 @@ class TweetModel(db.Model):
         tweet['favorite_count'] = self.favorite_count
         tweet['author_id_str'] = self.author_id
         return tweet
+
+    @staticmethod
+    def get_authors_group_by(keyword):
+        # TODO: Add efficient query and remove function in db_script
+        return []
 
     @staticmethod
     def get_tweet(t_id):

@@ -50,3 +50,19 @@ def store_tweets_to_db(keyword, tweets):
         else:
             s_tweet.update(sk)
     print_msg("Done!")
+
+
+def get_users_by_keyword(keyword):
+    users = {}
+    print_msg("Getting all users of keyword...")
+    # TODO: Remove this and add group_by query
+    for tweet in models.TweetModel.query.filter(models.TweetModel.keywords.any(name=keyword)).all():
+        if tweet.author_id in users.keys():
+            users[tweet.author_id]['count'] += 1
+        else:
+            users[tweet.author_id] = {
+                "User ID": tweet.author_id,
+                "count": 0,
+            }
+    print_msg("Done!")
+    return users

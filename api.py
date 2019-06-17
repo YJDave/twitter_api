@@ -34,6 +34,11 @@ class QueryDBAPITweet(Resource):
         tweets = db_scripts.get_top_tweets(option)
         return jsonify(tweets)
 
+class QueryDBAPIUser(Resource):
+    def get(self, keyword):
+        all_users = db_scripts.get_users_by_keyword(keyword)
+        return jsonify(all_users)
+
 class QueryDBAPIKeyword(Resource):
     def get(self):
 
@@ -43,6 +48,7 @@ class QueryDBAPIKeyword(Resource):
 api.add_resource(Hello, '/')
 api.add_resource(QueryAPI, '/query/<string:keyword>')
 api.add_resource(QueryDBAPITweet, '/query/db/top/<string:option>')
+api.add_resource(QueryDBAPIUser, '/query/db/user_tweet/<string:keyword>')
 api.add_resource(QueryDBAPIKeyword, '/query/db/all')
 
 
