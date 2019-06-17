@@ -1,11 +1,16 @@
 from flask import Flask, jsonify
 from flask_restful import Resource, Api
+from flask_sqlalchemy import SQLAlchemy
+import os
 
 from db_scripts import store_tweets_to_db
 from tweepy_func import get_tweets
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 api = Api(app)
+db = SQLAlchemy(app)
 
 class Hello(Resource):
     # TODO: Add documentation here on how to access API
