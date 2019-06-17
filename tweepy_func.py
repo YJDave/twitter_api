@@ -15,8 +15,8 @@ MAXIMUM_SEARCH_RESULT = 2
 
 def get_tokens():
     tokens =  {
-        "consumer_key": os.getenv('consumer_key'),
-        "consumer_secret": os.getenv('consumer_secret'),
+        "consumer_key": os.getenv('CONSUMER_KEY'),
+        "consumer_secret": os.getenv('CONSUMER_SECRET'),
     }
     return tokens["consumer_key"], tokens["consumer_secret"]
 
