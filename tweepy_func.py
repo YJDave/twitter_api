@@ -36,10 +36,10 @@ def parse_tweet_info(status):
     # tweet['quote_count'] = status.quote_count
 
     # Tweet author information
-    tweet['author'] = {}
-    tweet['author']['name'] = status._json['user']['name']
-    tweet['author']['username'] = status._json['user']['screen_name']
-    tweet['author']['id_str'] = status._json['user']['id_str']
+    # tweet['author'] = {}
+    # tweet['author']['name'] = status._json['user']['name']
+    # tweet['authorusername'] = status._json['user']['screen_name']
+    tweet['author_id'] = status._json['user']['id_str']
 
     return tweet
 
