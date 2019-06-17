@@ -27,7 +27,14 @@ def get_top_tweets(option):
     return tweets
 
 def get_all_tweets_keywords():
-    return []
+    all_tweets = {}
+    print_msg("Getting all tweets by keyword...")
+    for keyword in models.SearchKeyword.query.all():
+        all_tweets[keyword.name] = []
+        for tweet in models.TweetModel.query.filter(models.TweetModel.keywords.any(name=keyword.name)).all():
+            all_tweets[keyword.name].append(tweet.to_dict())
+    print_msg("Done!")
+    return all_tweets
 
 def store_tweets_to_db(keyword, tweets):
     # TODO: store tweets to db
