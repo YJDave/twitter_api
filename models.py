@@ -1,7 +1,6 @@
 
 import datetime
 from api import db
-import ujson
 from sqlalchemy import func
 from sqlalchemy.sql import label
 
@@ -17,6 +16,7 @@ class TweetModel(db.Model):
     text = db.Column(db.String(280), nullable=False)
     # created_at = db.Column(db.DateTime, nullable=False)
     retweet_count = db.Column(db.Integer, nullable=False)
+    # TODO: Fix the spell mistake here
     favorite_count = db.Column(db.Integer, nullable=False)
     author_id = db.Column(db.String(20), nullable=False)
 
