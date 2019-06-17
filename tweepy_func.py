@@ -11,7 +11,7 @@ import os
 
 from debug import print_msg
 
-MAXIMUM_SEARCH_RESULT = 2
+MAXIMUM_SEARCH_RESULT = 3
 
 def get_tokens():
     tokens =  {
@@ -39,7 +39,7 @@ def parse_tweet_info(status):
     # tweet['author'] = {}
     # tweet['author']['name'] = status._json['user']['name']
     # tweet['authorusername'] = status._json['user']['screen_name']
-    tweet['author_id'] = status._json['user']['id_str']
+    tweet['author_id_str'] = status._json['user']['id_str']
 
     return tweet
 

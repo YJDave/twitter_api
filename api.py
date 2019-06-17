@@ -3,7 +3,7 @@ from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 import os
 
-from db_scripts import store_tweets_to_db
+import db_scripts
 from tweepy_func import get_tweets
 
 app = Flask(__name__)
@@ -20,8 +20,10 @@ class Hello(Resource):
 class QueryAPI(Resource):
     # TODO: Return tweets here match with keyword
     def get(self, keyword):
-        store_tweets_to_db()
-        tweets = get_tweets(keyword)
+        tweets = db_scripts.get_keyword_tweets(keyword)
+        if len(tweets) == 0:
+            tweets = get_tweets(keyword)
+            db_scripts.store_tweets_to_db(keyword, tweets)
         return jsonify(tweets)
 
 api.add_resource(Hello, '/')
