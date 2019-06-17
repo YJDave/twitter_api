@@ -7,6 +7,7 @@ from tweepy import (
     API,
     Cursor,
 )
+import os
 
 from debug import print_msg
 
@@ -14,8 +15,8 @@ MAXIMUM_SEARCH_RESULT = 2
 
 def get_tokens():
     tokens =  {
-        "consumer_key": '',
-        "consumer_secret": '',
+        "consumer_key": os.getenv('consumer_key'),
+        "consumer_secret": os.getenv('consumer_secret'),
     }
     return tokens["consumer_key"], tokens["consumer_secret"]
 
@@ -30,8 +31,9 @@ def parse_tweet_info(status):
     # Tweet likes, retweets..
     tweet['retweet_count'] = status.retweet_count
     tweet['favorite_count'] = status.favorite_count
-    tweet['reply_count'] = status.reply_count
-    tweet['quote_count'] = status.quote_count
+    # Not for standard API
+    # tweet['reply_count'] = status.reply_count
+    # tweet['quote_count'] = status.quote_count
 
     # Tweet author information
     tweet['author'] = {}
