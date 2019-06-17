@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from flask_restful import Resource, Api
 
 from db_scripts import store_tweets_to_db
-from ttweepy import get_tweets
+from tweepy_func import get_tweets
 
 app = Flask(__name__)
 api = Api(app)
