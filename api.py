@@ -6,21 +6,8 @@ import os
 import db_scripts
 from tweepy_func import get_tweets
 
-class DatabaseConfig(object):
-    # Database configuration
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-class CeleryConfig(object):
-    # Celery configuration
-    CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
-    CELERY_BACKEND = os.getenv('DATABASE_URL')
-    CELERY_TASK_SERIALIZER = 'json'
-    CELERY_RESULT_SERIALIZER = 'json'
-
 app = Flask(__name__)
-app.config.from_object(DatabaseConfig)
-app.config.from_object(CeleryConfig)
+app.config.from_object("config.Config")
 api = Api(app)
 db = SQLAlchemy(app)
 
