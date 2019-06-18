@@ -1,4 +1,4 @@
-##How to Run?
+## How to Run?
 
 1. Create virtual env
 `virtualenv <env_name> -p python3`
@@ -56,7 +56,7 @@ Returns all authors ids, who tweet on given keyword, with count of tweets
 Returns all stored tweets group by keywords
 
 
-##Examples
+## Examples
 
 1. `curl http://127.0.0.1:5000/query/modi`
 Output:
@@ -189,7 +189,7 @@ Output:
 }
 ```
 
-##Resources
+## Resources
 
 * https://www.youtube.com/watch?v=s_ht4AKnWZg
 * https://github.com/pallets/flask/blob/master/.gitignore
