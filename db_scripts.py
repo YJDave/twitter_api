@@ -8,7 +8,7 @@ def get_keyword_tweets(keyword):
     tweets = []
     sk = models.SearchKeyword.get_keyword(keyword)
     if sk:
-        for tweet in models.TweetModel.query.filter(models.TweetModel.keywords.any(name=keyword)).all():
+        for tweet in models.TweetModel.get_tweets_of_keyword(keyword):
             tweets.append(tweet.to_dict())
     print_msg("Done!")
     return tweets
@@ -28,18 +28,21 @@ def get_top_tweets(option):
 
 def get_all_tweets_keywords():
     all_tweets = {}
-    print_msg("Getting all tweets by keyword...")
+    print_msg("Getting all tweets by any keyword...")
     for keyword in models.SearchKeyword.query.all():
         all_tweets[keyword.name] = []
-        for tweet in models.TweetModel.query.filter(models.TweetModel.keywords.any(name=keyword.name)).all():
+        for tweet in models.TweetModel.get_tweets_of_keyword(keyword.name):
             all_tweets[keyword.name].append(tweet.to_dict())
     print_msg("Done!")
     return all_tweets
 
 def store_tweets_to_db(keyword, tweets):
     # TODO: store tweets to db
-    print_msg("Storing tweets to database")
-    sk = models.SearchKeyword(keyword)
+    print_msg("Storing tweets to database of keyword %s..." % (keyword))
+    sk = models.SearchKeyword.get_keyword(keyword)
+    if not sk:
+        sk = models.SearchKeyword(keyword)
+
     for tweet in tweets:
         # print(tweet.get('id_str'))
         s_tweet = models.TweetModel.get_tweet(tweet.get('id_str'))
@@ -54,9 +57,9 @@ def store_tweets_to_db(keyword, tweets):
 
 def get_users_by_keyword(keyword):
     users = {}
-    print_msg("Getting all users of keyword...")
+    print_msg("Getting all users of keyword %s..." % (keyword))
     # TODO: Remove this and add group_by query
-    for tweet in models.TweetModel.query.filter(models.TweetModel.keywords.any(name=keyword)).all():
+    for tweet in models.TweetModel.get_tweets_of_keyword(keyword):
         if tweet.author_id in users.keys():
             users[tweet.author_id]['count'] += 1
         else:
@@ -66,3 +69,13 @@ def get_users_by_keyword(keyword):
             }
     print_msg("Done!")
     return users
+
+def get_outdated_keywords():
+    print_msg("Fetching outdated keywords")
+    return models.SearchKeyword.outdated_keywords()
+
+def delete_outdated_tweets(keyword):
+    print_msg("Deleting existing tweets of keyword %s" %(keyword))
+    models.TweetModel.delete_outdated_tweets(keyword)
+    print_msg("Done!")
+

@@ -9,7 +9,7 @@ class Config:
 
     # Celery configuration
     CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
-    CELERY_BACKEND = os.getenv('DATABASE_URL')
+    CELERY_BACKEND = "db+" + os.getenv('DATABASE_URL')
     CELERY_TASK_SERIALIZER = 'json'
     CELERY_RESULT_SERIALIZER = 'json'
 

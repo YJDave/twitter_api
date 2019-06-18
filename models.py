@@ -1,8 +1,12 @@
 
-import datetime
 from api import db
 from sqlalchemy import func
 from sqlalchemy.sql import label
+from datetime import (
+    datetime,
+    timedelta,
+)
+from api import UPDATE_DATA_ON_MINUTES
 
 search_results = db.Table('results',
     db.Column('keyword', db.String(120), db.ForeignKey('keyword.name')),
@@ -50,14 +54,27 @@ class TweetModel(db.Model):
         tweet['author_id_str'] = self.author_id
         return tweet
 
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
     @staticmethod
     def get_authors_group_by(keyword):
         # TODO: Add efficient query and remove function in db_script
         return []
 
     @staticmethod
+    def get_tweets_of_keyword(keyword):
+        return TweetModel.query.filter(TweetModel.keywords.any(name=keyword)).all()
+
+    @staticmethod
     def get_tweet(t_id):
         return TweetModel.query.get(t_id)
+
+    @staticmethod
+    def delete_outdated_tweets(keyword):
+        for tweet in TweetModel.get_tweets_of_keyword(keyword):
+            tweet.delete()
 
 class SearchKeyword(db.Model):
     __tablename__ = "keyword"
@@ -66,16 +83,22 @@ class SearchKeyword(db.Model):
 
     def __init__(self, keyword):
         self.name = keyword
-        self.last_updated = datetime.datetime.utcnow()
+        self.last_updated = datetime.now()
 
     def save(self):
         db.session.add(self)
         db.session.commit()
 
     def update(self):
-        self.last_updated = datetime.datetime.utcnow()
+        self.last_updated = datetime.now()
         db.session.commit()
 
     @staticmethod
     def get_keyword(keyword):
         return SearchKeyword.query.get(keyword)
+
+    @staticmethod
+    def outdated_keywords():
+        return SearchKeyword.query.filter(
+            (datetime.now() - SearchKeyword.last_updated) >= timedelta(minutes=UPDATE_DATA_ON_MINUTES)).all()
+
