@@ -3,13 +3,18 @@ from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 import os
 
-import db_scripts
 from tweepy_func import get_tweets
+import celery_func
 
 app = Flask(__name__)
 app.config.from_object("config.Config")
+celery = celery_func.make_celery(app)
 api = Api(app)
 db = SQLAlchemy(app)
+
+import db_scripts
+
+# Celery tasks
 
 class Hello(Resource):
     # TODO: Add documentation here on how to access API
